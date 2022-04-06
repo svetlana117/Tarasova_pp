@@ -1,0 +1,410 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище Tarasova_PPModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="ClientCode" />
+          </Key>
+          <Property Name="ClientCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="100" />
+          <Property Name="Patronymic" Type="nvarchar" MaxLength="100" />
+          <Property Name="Passport" Type="nvarchar" MaxLength="100" />
+          <Property Name="Policy" Type="nvarchar" MaxLength="100" />
+          <Property Name="Snils" Type="nvarchar" MaxLength="100" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="Date" Type="date" />
+          <Property Name="ServicesCode" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="doctors">
+          <Key>
+            <PropertyRef Name="DoctorCode" />
+          </Key>
+          <Property Name="DoctorCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DoctorName" Type="nvarchar" MaxLength="100" />
+          <Property Name="MedindustryCode" Type="int" />
+        </EntityType>
+        <EntityType Name="medIndustry">
+          <Key>
+            <PropertyRef Name="MedindustryCode" />
+          </Key>
+          <Property Name="MedindustryCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MedindustryName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="services">
+          <Key>
+            <PropertyRef Name="ServicesCode" />
+          </Key>
+          <Property Name="ServicesCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServicesName" Type="nvarchar" MaxLength="200" />
+          <Property Name="Price" Type="int" />
+          <Property Name="DoctorCode" Type="int" />
+          <Property Name="MedindustryCode" Type="int" />
+          <Property Name="Image" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TimeTable">
+          <Key>
+            <PropertyRef Name="TimetableCode" />
+          </Key>
+          <Property Name="TimetableCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="ServicesCode" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Client_services">
+          <End Role="services" Type="Self.services" Multiplicity="1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="services">
+              <PropertyRef Name="ServicesCode" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="ServicesCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_doctors_medIndustry">
+          <End Role="medIndustry" Type="Self.medIndustry" Multiplicity="0..1" />
+          <End Role="doctors" Type="Self.doctors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medIndustry">
+              <PropertyRef Name="MedindustryCode" />
+            </Principal>
+            <Dependent Role="doctors">
+              <PropertyRef Name="MedindustryCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_services_doctors">
+          <End Role="doctors" Type="Self.doctors" Multiplicity="0..1" />
+          <End Role="services" Type="Self.services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="doctors">
+              <PropertyRef Name="DoctorCode" />
+            </Principal>
+            <Dependent Role="services">
+              <PropertyRef Name="DoctorCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_services_medIndustry">
+          <End Role="medIndustry" Type="Self.medIndustry" Multiplicity="0..1" />
+          <End Role="services" Type="Self.services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medIndustry">
+              <PropertyRef Name="MedindustryCode" />
+            </Principal>
+            <Dependent Role="services">
+              <PropertyRef Name="MedindustryCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeTable_services">
+          <End Role="services" Type="Self.services" Multiplicity="1" />
+          <End Role="TimeTable" Type="Self.TimeTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="services">
+              <PropertyRef Name="ServicesCode" />
+            </Principal>
+            <Dependent Role="TimeTable">
+              <PropertyRef Name="ServicesCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище Tarasova_PPModelContainer">
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="doctors" EntityType="Self.doctors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="medIndustry" EntityType="Self.medIndustry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="services" EntityType="Self.services" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TimeTable" EntityType="Self.TimeTable" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Client_services" Association="Self.FK_Client_services">
+            <End Role="services" EntitySet="services" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_doctors_medIndustry" Association="Self.FK_doctors_medIndustry">
+            <End Role="medIndustry" EntitySet="medIndustry" />
+            <End Role="doctors" EntitySet="doctors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_services_doctors" Association="Self.FK_services_doctors">
+            <End Role="doctors" EntitySet="doctors" />
+            <End Role="services" EntitySet="services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_services_medIndustry" Association="Self.FK_services_medIndustry">
+            <End Role="medIndustry" EntitySet="medIndustry" />
+            <End Role="services" EntitySet="services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeTable_services" Association="Self.FK_TimeTable_services">
+            <End Role="services" EntitySet="services" />
+            <End Role="TimeTable" EntitySet="TimeTable" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Tarasova_PPModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Tarasova_PPEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Client" EntityType="Tarasova_PPModel.Client" />
+          <EntitySet Name="doctors" EntityType="Tarasova_PPModel.doctors" />
+          <EntitySet Name="medIndustry" EntityType="Tarasova_PPModel.medIndustry" />
+          <EntitySet Name="services" EntityType="Tarasova_PPModel.services" />
+          <EntitySet Name="sysdiagrams" EntityType="Tarasova_PPModel.sysdiagrams" />
+          <EntitySet Name="TimeTable" EntityType="Tarasova_PPModel.TimeTable" />
+          <AssociationSet Name="FK_Client_services" Association="Tarasova_PPModel.FK_Client_services">
+            <End Role="services" EntitySet="services" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_doctors_medIndustry" Association="Tarasova_PPModel.FK_doctors_medIndustry">
+            <End Role="medIndustry" EntitySet="medIndustry" />
+            <End Role="doctors" EntitySet="doctors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_services_doctors" Association="Tarasova_PPModel.FK_services_doctors">
+            <End Role="doctors" EntitySet="doctors" />
+            <End Role="services" EntitySet="services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_services_medIndustry" Association="Tarasova_PPModel.FK_services_medIndustry">
+            <End Role="medIndustry" EntitySet="medIndustry" />
+            <End Role="services" EntitySet="services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeTable_services" Association="Tarasova_PPModel.FK_TimeTable_services">
+            <End Role="services" EntitySet="services" />
+            <End Role="TimeTable" EntitySet="TimeTable" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="ClientCode" />
+          </Key>
+          <Property Name="ClientCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Patronymic" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Passport" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Policy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Snils" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="ServicesCode" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="services" Relationship="Tarasova_PPModel.FK_Client_services" FromRole="Client" ToRole="services" />
+        </EntityType>
+        <EntityType Name="doctors">
+          <Key>
+            <PropertyRef Name="DoctorCode" />
+          </Key>
+          <Property Name="DoctorCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DoctorName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MedindustryCode" Type="Int32" />
+          <NavigationProperty Name="medIndustry" Relationship="Tarasova_PPModel.FK_doctors_medIndustry" FromRole="doctors" ToRole="medIndustry" />
+          <NavigationProperty Name="services" Relationship="Tarasova_PPModel.FK_services_doctors" FromRole="doctors" ToRole="services" />
+        </EntityType>
+        <EntityType Name="medIndustry">
+          <Key>
+            <PropertyRef Name="MedindustryCode" />
+          </Key>
+          <Property Name="MedindustryCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MedindustryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="doctors" Relationship="Tarasova_PPModel.FK_doctors_medIndustry" FromRole="medIndustry" ToRole="doctors" />
+          <NavigationProperty Name="services" Relationship="Tarasova_PPModel.FK_services_medIndustry" FromRole="medIndustry" ToRole="services" />
+        </EntityType>
+        <EntityType Name="services">
+          <Key>
+            <PropertyRef Name="ServicesCode" />
+          </Key>
+          <Property Name="ServicesCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ServicesName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Int32" />
+          <Property Name="DoctorCode" Type="Int32" />
+          <Property Name="MedindustryCode" Type="Int32" />
+          <Property Name="Image" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Client" Relationship="Tarasova_PPModel.FK_Client_services" FromRole="services" ToRole="Client" />
+          <NavigationProperty Name="doctors" Relationship="Tarasova_PPModel.FK_services_doctors" FromRole="services" ToRole="doctors" />
+          <NavigationProperty Name="medIndustry" Relationship="Tarasova_PPModel.FK_services_medIndustry" FromRole="services" ToRole="medIndustry" />
+          <NavigationProperty Name="TimeTable" Relationship="Tarasova_PPModel.FK_TimeTable_services" FromRole="services" ToRole="TimeTable" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TimeTable">
+          <Key>
+            <PropertyRef Name="TimetableCode" />
+          </Key>
+          <Property Name="TimetableCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="ServicesCode" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="services" Relationship="Tarasova_PPModel.FK_TimeTable_services" FromRole="TimeTable" ToRole="services" />
+        </EntityType>
+        <Association Name="FK_Client_services">
+          <End Type="Tarasova_PPModel.services" Role="services" Multiplicity="1" />
+          <End Type="Tarasova_PPModel.Client" Role="Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="services">
+              <PropertyRef Name="ServicesCode" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="ServicesCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_doctors_medIndustry">
+          <End Type="Tarasova_PPModel.medIndustry" Role="medIndustry" Multiplicity="0..1" />
+          <End Type="Tarasova_PPModel.doctors" Role="doctors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medIndustry">
+              <PropertyRef Name="MedindustryCode" />
+            </Principal>
+            <Dependent Role="doctors">
+              <PropertyRef Name="MedindustryCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_services_doctors">
+          <End Type="Tarasova_PPModel.doctors" Role="doctors" Multiplicity="0..1" />
+          <End Type="Tarasova_PPModel.services" Role="services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="doctors">
+              <PropertyRef Name="DoctorCode" />
+            </Principal>
+            <Dependent Role="services">
+              <PropertyRef Name="DoctorCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_services_medIndustry">
+          <End Type="Tarasova_PPModel.medIndustry" Role="medIndustry" Multiplicity="0..1" />
+          <End Type="Tarasova_PPModel.services" Role="services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medIndustry">
+              <PropertyRef Name="MedindustryCode" />
+            </Principal>
+            <Dependent Role="services">
+              <PropertyRef Name="MedindustryCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeTable_services">
+          <End Type="Tarasova_PPModel.services" Role="services" Multiplicity="1" />
+          <End Type="Tarasova_PPModel.TimeTable" Role="TimeTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="services">
+              <PropertyRef Name="ServicesCode" />
+            </Principal>
+            <Dependent Role="TimeTable">
+              <PropertyRef Name="ServicesCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище Tarasova_PPModelContainer" CdmEntityContainer="Tarasova_PPEntities">
+          <EntitySetMapping Name="Client">
+            <EntityTypeMapping TypeName="Tarasova_PPModel.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="ServicesCode" ColumnName="ServicesCode" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Snils" ColumnName="Snils" />
+                <ScalarProperty Name="Policy" ColumnName="Policy" />
+                <ScalarProperty Name="Passport" ColumnName="Passport" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ClientCode" ColumnName="ClientCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="doctors">
+            <EntityTypeMapping TypeName="Tarasova_PPModel.doctors">
+              <MappingFragment StoreEntitySet="doctors">
+                <ScalarProperty Name="MedindustryCode" ColumnName="MedindustryCode" />
+                <ScalarProperty Name="DoctorName" ColumnName="DoctorName" />
+                <ScalarProperty Name="DoctorCode" ColumnName="DoctorCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="medIndustry">
+            <EntityTypeMapping TypeName="Tarasova_PPModel.medIndustry">
+              <MappingFragment StoreEntitySet="medIndustry">
+                <ScalarProperty Name="MedindustryName" ColumnName="MedindustryName" />
+                <ScalarProperty Name="MedindustryCode" ColumnName="MedindustryCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="services">
+            <EntityTypeMapping TypeName="Tarasova_PPModel.services">
+              <MappingFragment StoreEntitySet="services">
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="MedindustryCode" ColumnName="MedindustryCode" />
+                <ScalarProperty Name="DoctorCode" ColumnName="DoctorCode" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="ServicesName" ColumnName="ServicesName" />
+                <ScalarProperty Name="ServicesCode" ColumnName="ServicesCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Tarasova_PPModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TimeTable">
+            <EntityTypeMapping TypeName="Tarasova_PPModel.TimeTable">
+              <MappingFragment StoreEntitySet="TimeTable">
+                <ScalarProperty Name="ServicesCode" ColumnName="ServicesCode" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="TimetableCode" ColumnName="TimetableCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

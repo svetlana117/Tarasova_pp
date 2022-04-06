@@ -1,0 +1,49 @@
+﻿<Page x:Class="Tarasova_41P_PP.Pages.ServicesListPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Tarasova_41P_PP.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ServicesListPage">
+
+    <Page.Resources>
+        <DataTemplate x:Key="DataTemplateListServices">
+            <Border Width="1300px" BorderBrush ="DarkCyan" BorderThickness="1,1,1,1" Background="{Binding Background}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{Binding ImagePath}" Width="100" Height="100" Grid.Column="0"/>
+                    <StackPanel Orientation="Vertical" Grid.Column="1" Margin="10" Width="1500">
+                        <TextBlock Text="{Binding Row1}" Style="{StaticResource txtBlock2}" Margin="3"/>
+                        <TextBlock Text="{Binding Row2}" Style="{StaticResource txtBlock2}" Margin="3"/>
+                        <TextBlock Text="{Binding Row3}" Style="{StaticResource txtBlock2}" Margin="3"/>
+                        <Button Content="Записаться" Name="btnRecord" Style="{StaticResource buttonS}" Margin="3" Click="btnRecord_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <GroupBox Header="Поиск"  Height="55"  Width="220" HorizontalAlignment="Left" >
+            <TextBox x:Name="TextFilter" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="200" Height="30" TextChanged="TextFilter_TextChanged"/>
+        </GroupBox>
+        <ComboBox Grid.Row="0" x:Name="ComboBoxSort" SelectionChanged="ComboBoxSort_SelectionChanged" Width="200" Height="30"  IsEditable="True"  Text="Сортировка">
+            <ComboBoxItem Content="Цена по убыванию"/>
+            <ComboBoxItem Content="Цена по возрастанию"/>
+            <ComboBoxItem Content="Наименование по убыванию"/>
+            <ComboBoxItem Content="Наименование по возрастанию"/>
+        </ComboBox>
+        <ComboBox Grid.Row="0" x:Name="ComboBoxFilter" HorizontalAlignment="Right" Width="200" Height="30" IsEditable="True"  Text="Фильтрация" SelectionChanged="ComboBoxFilter_SelectionChanged"/>
+
+
+        <ListBox x:Name="ListBoxServices" Grid.Row="1" ItemTemplate="{StaticResource DataTemplateListServices}"/>
+
+        <TextBlock x:Name="countListServices" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="0"/>
+    </Grid>
+</Page>

@@ -114,18 +114,14 @@ namespace Tarasova_41P_PP.Pages
 
         private void btnRecord_Click(object sender, RoutedEventArgs e)
         {
-
-            services s = new services();
-            foreach (services ss in ListBoxServices.SelectedItems)
-            {
-                s = ss;
-            }
+            Button btn = (Button)sender;
+            services s = BaseConnect.BaseModel.services.FirstOrDefault(x=>x.ServicesCode.ToString() == btn.Uid);
             RecordClient rc = new RecordClient(s);
             if (rc.ShowDialog() == true)
             {
                 
             }
-            Filter();
+            //Filter();
         }
     }
 }

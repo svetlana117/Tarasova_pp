@@ -27,39 +27,46 @@ namespace Tarasova_41P_PP.Pages
         services srv;
         Client client;
 
-        List<string> raspisanie = new List<string>();
-        List<string> zanyto = new List<string>();
         List<string[]> FreeDateTime = new List<string[]>();
 
-        List<DateTime> Raspisanie = TimeTable.GetTimeTable();
-        List<DateTime> Zanyato = Client.GetClient();
+        List<DateTime> Raspisanie = new List<DateTime>();
 
-        public RecordClient(services s)
+        public RecordClient(services srv)
         {
-            InitializeComponent();
+            InitializeComponent();   
             client = new Client();
-            client.ServicesCode = s.ServicesCode;
+            this.srv = srv;
+            Raspisanie = TimeTable.GetTimeTable(srv.ServicesCode);
+            client.ServicesCode = srv.ServicesCode;
+            Refresh();
+        }
+        private void Refresh()
+        {
+            DatePicker.SelectedDate = null;
+            ComboBox.Items.Clear();
+            ComboBox.SelectedItem = null;
+            Raspisanie = TimeTable.GetTimeTable(srv.ServicesCode);
+            DatePicker.BlackoutDates.Clear();
             DatePicker.DisplayDateStart = DateTime.Now;
             DatePicker.DisplayDateEnd = DateTime.Now.AddDays(30);
             for (int i = 0; i < 31; i++)
             {
+                DatePicker.SelectedDate = null;
+                //CalendarDateRange calendarDateRange = new CalendarDateRange(DateTime.Parse(DateTime.Now.AddDays(i).ToShortDateString()), DateTime.Parse(DateTime.Now.AddDays(i).ToShortDateString()));
                 DatePicker.BlackoutDates.Add(new CalendarDateRange(DateTime.Parse(DateTime.Now.AddDays(i).ToShortDateString()), DateTime.Parse(DateTime.Now.AddDays(i).ToShortDateString())));
             }
+            FreeDateTime.Clear();
             foreach (DateTime str in Raspisanie)
             {
                 string[] a = new string[2];
                 a = str.ToString().Split(' ');
-                if (!Zanyato.Contains(str))
-                {
-                    FreeDateTime.Add(str.ToString().Split(' '));
-                    DatePicker.BlackoutDates.Remove(DatePicker.BlackoutDates.FirstOrDefault(x => x.Start == DateTime.Parse(a[0] + " 00:00:00")));
-                }
+                FreeDateTime.Add(str.ToString().Split(' '));
+                DatePicker.BlackoutDates.Remove(DatePicker.BlackoutDates.FirstOrDefault(x => x.Start == DateTime.Parse(a[0] + " 00:00:00")));
             }
         }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            try
+            //try
             {
                 if (TextBoxName.Text != "" && TextBoxSurname.Text != "" && TextBoxPatronymic.Text != "" && TextBoxPassport.Text != "" && TextBoxPolicy.Text != "" && TextBoxSnils.Text != "" && TextBoxEmail.Text != "" && DatePicker.SelectedDate.ToString() != "" && TextBoxEmail.Text != "")
                 {
@@ -70,23 +77,30 @@ namespace Tarasova_41P_PP.Pages
                     client.Policy = TextBoxPolicy.Text;
                     client.Snils = TextBoxSnils.Text;
                     client.Email = TextBoxEmail.Text;
-                    client.Date = DatePicker.SelectedDate;
+                    client.Date = DateTime.Parse(DatePicker.SelectedDate.ToString().Substring(0, 10) + " "+ ComboBox.SelectedItem.ToString());
                     BaseConnect.BaseModel.Client.Add(client);
+                
+                    TimeTable timeTable = BaseConnect.BaseModel.TimeTable.FirstOrDefault(x=>x.Date==client.Date);
+                    timeTable.Status = 1;
                     BaseConnect.BaseModel.SaveChanges();
                     MessageBox.Show("Запись прошла успешно");
+               
+                    Refresh();
                 }
                 else
                 {
                     MessageBox.Show("Поля не могут быть пустыми!");
                 }
             }
-            catch { }
+            //catch { }
         }
         private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            foreach (string[] a in FreeDateTime)
+            ComboBox.Items.Clear();
+            foreach (string[] s in FreeDateTime)
             {
-                ComboBox.Items.Add(a[1]);
+                if (DatePicker.Text == s[0])
+                    ComboBox.Items.Add(s[1]);
             }
         }
     }

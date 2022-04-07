@@ -17,7 +17,7 @@
                         <TextBlock Text="{Binding Row1}" Style="{StaticResource txtBlock2}" Margin="3"/>
                         <TextBlock Text="{Binding Row2}" Style="{StaticResource txtBlock2}" Margin="3"/>
                         <TextBlock Text="{Binding Row3}" Style="{StaticResource txtBlock2}" Margin="3"/>
-                        <Button Content="Записаться" Name="btnRecord" Style="{StaticResource buttonS}" Margin="3" Click="btnRecord_Click"/>
+                        <Button Content="Записаться" Name="btnRecord" Uid="{Binding ServicesCode}" Style="{StaticResource buttonS}" Margin="3" Click="btnRecord_Click"/>
                     </StackPanel>
                 </StackPanel>
             </Border>

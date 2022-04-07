@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tarasova_41P_PP.Pages"
         mc:Ignorable="d"
-        Title="RecordClient" Height="700" Width="500">
+        Title="RecordClient" Height="550" Width="500">
     <Grid>
         <TextBlock Text="Для записи на прием заполните свои данные:" Style="{StaticResource txtBlock3}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20"></TextBlock>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="350" Margin="50">

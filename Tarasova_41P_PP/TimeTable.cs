@@ -24,6 +24,8 @@ public partial class TimeTable
 
     public int ServicesCode { get; set; }
 
+    public Nullable<int> Status { get; set; }
+
 
 
     public virtual services services { get; set; }

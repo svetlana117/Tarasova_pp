@@ -53,6 +53,7 @@
           <Property Name="TimetableCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Date" Type="datetime" />
           <Property Name="ServicesCode" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" />
         </EntityType>
         <Association Name="FK_Client_services">
           <End Role="services" Type="Self.services" Multiplicity="0..1" />
@@ -229,6 +230,7 @@
           <Property Name="TimetableCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Date" Type="DateTime" Precision="3" />
           <Property Name="ServicesCode" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" />
           <NavigationProperty Name="services" Relationship="Tarasova_PPModel.FK_TimeTable_services" FromRole="TimeTable" ToRole="services" />
         </EntityType>
         <Association Name="FK_Client_services">
@@ -345,6 +347,7 @@
           <EntitySetMapping Name="TimeTable">
             <EntityTypeMapping TypeName="Tarasova_PPModel.TimeTable">
               <MappingFragment StoreEntitySet="TimeTable">
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ServicesCode" ColumnName="ServicesCode" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="TimetableCode" ColumnName="TimetableCode" />

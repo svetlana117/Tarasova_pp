@@ -36,8 +36,6 @@ public partial class Client
 
     public Nullable<System.DateTime> Date { get; set; }
 
-    public Nullable<System.TimeSpan> Time { get; set; }
-
     public Nullable<int> ServicesCode { get; set; }
 
 

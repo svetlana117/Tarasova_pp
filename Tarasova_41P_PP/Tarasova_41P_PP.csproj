@@ -67,6 +67,8 @@
     <Compile Include="Classes\BaseConnect.cs" />
     <Compile Include="Classes\LoadPages.cs" />
     <Compile Include="Classes\ModalServices.cs" />
+    <Compile Include="Classes\ModelClient.cs" />
+    <Compile Include="Classes\ModelTimetable.cs" />
     <Compile Include="Client.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

@@ -31,7 +31,8 @@ namespace Tarasova_41P_PP.Pages
         List<string> zanyto = new List<string>();
         List<string[]> FreeDateTime = new List<string[]>();
 
-        List<DateTime> RaspisanieDate = new List<DateTime>();
+        List<DateTime> Raspisanie = TimeTable.GetTimeTable();
+        List<DateTime> Zanyato = Client.GetClient();
 
         public RecordClient(services s)
         {
@@ -44,13 +45,13 @@ namespace Tarasova_41P_PP.Pages
             {
                 DatePicker.BlackoutDates.Add(new CalendarDateRange(DateTime.Parse(DateTime.Now.AddDays(i).ToShortDateString()), DateTime.Parse(DateTime.Now.AddDays(i).ToShortDateString())));
             }
-            foreach (string str in raspisanie)
+            foreach (DateTime str in Raspisanie)
             {
                 string[] a = new string[2];
-                a = str.Split(' ');
-                if (!zanyto.Contains(str))
+                a = str.ToString().Split(' ');
+                if (!Zanyato.Contains(str))
                 {
-                    FreeDateTime.Add(str.Split(' '));
+                    FreeDateTime.Add(str.ToString().Split(' '));
                     DatePicker.BlackoutDates.Remove(DatePicker.BlackoutDates.FirstOrDefault(x => x.Start == DateTime.Parse(a[0] + " 00:00:00")));
                 }
             }

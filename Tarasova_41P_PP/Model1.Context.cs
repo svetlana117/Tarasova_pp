@@ -40,8 +40,6 @@ public partial class Tarasova_PPEntities : DbContext
 
     public virtual DbSet<services> services { get; set; }
 
-    public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
-
     public virtual DbSet<TimeTable> TimeTable { get; set; }
 
 }

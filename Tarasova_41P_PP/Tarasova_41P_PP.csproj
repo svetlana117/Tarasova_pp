@@ -90,9 +90,6 @@
     <Compile Include="services.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="sysdiagrams.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="TimeTable.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

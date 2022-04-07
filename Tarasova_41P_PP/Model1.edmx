@@ -17,8 +17,8 @@
           <Property Name="Policy" Type="nvarchar" MaxLength="100" />
           <Property Name="Snils" Type="nvarchar" MaxLength="100" />
           <Property Name="Email" Type="nvarchar" MaxLength="100" />
-          <Property Name="Date" Type="date" />
-          <Property Name="ServicesCode" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="ServicesCode" Type="int" />
         </EntityType>
         <EntityType Name="doctors">
           <Key>
@@ -46,16 +46,6 @@
           <Property Name="MedindustryCode" Type="int" />
           <Property Name="Image" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
         <EntityType Name="TimeTable">
           <Key>
             <PropertyRef Name="TimetableCode" />
@@ -65,7 +55,7 @@
           <Property Name="ServicesCode" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Client_services">
-          <End Role="services" Type="Self.services" Multiplicity="1" />
+          <End Role="services" Type="Self.services" Multiplicity="0..1" />
           <End Role="Client" Type="Self.Client" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="services">
@@ -129,7 +119,6 @@
           <EntitySet Name="doctors" EntityType="Self.doctors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="medIndustry" EntityType="Self.medIndustry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="services" EntityType="Self.services" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TimeTable" EntityType="Self.TimeTable" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Client_services" Association="Self.FK_Client_services">
             <End Role="services" EntitySet="services" />
@@ -161,7 +150,6 @@
           <EntitySet Name="doctors" EntityType="Tarasova_PPModel.doctors" />
           <EntitySet Name="medIndustry" EntityType="Tarasova_PPModel.medIndustry" />
           <EntitySet Name="services" EntityType="Tarasova_PPModel.services" />
-          <EntitySet Name="sysdiagrams" EntityType="Tarasova_PPModel.sysdiagrams" />
           <EntitySet Name="TimeTable" EntityType="Tarasova_PPModel.TimeTable" />
           <AssociationSet Name="FK_Client_services" Association="Tarasova_PPModel.FK_Client_services">
             <End Role="services" EntitySet="services" />
@@ -196,8 +184,8 @@
           <Property Name="Policy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Snils" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Date" Type="DateTime" Precision="0" />
-          <Property Name="ServicesCode" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="ServicesCode" Type="Int32" />
           <NavigationProperty Name="services" Relationship="Tarasova_PPModel.FK_Client_services" FromRole="Client" ToRole="services" />
         </EntityType>
         <EntityType Name="doctors">
@@ -234,16 +222,6 @@
           <NavigationProperty Name="medIndustry" Relationship="Tarasova_PPModel.FK_services_medIndustry" FromRole="services" ToRole="medIndustry" />
           <NavigationProperty Name="TimeTable" Relationship="Tarasova_PPModel.FK_TimeTable_services" FromRole="services" ToRole="TimeTable" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
         <EntityType Name="TimeTable">
           <Key>
             <PropertyRef Name="TimetableCode" />
@@ -254,7 +232,7 @@
           <NavigationProperty Name="services" Relationship="Tarasova_PPModel.FK_TimeTable_services" FromRole="TimeTable" ToRole="services" />
         </EntityType>
         <Association Name="FK_Client_services">
-          <End Type="Tarasova_PPModel.services" Role="services" Multiplicity="1" />
+          <End Type="Tarasova_PPModel.services" Role="services" Multiplicity="0..1" />
           <End Type="Tarasova_PPModel.Client" Role="Client" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="services">
@@ -361,17 +339,6 @@
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="ServicesName" ColumnName="ServicesName" />
                 <ScalarProperty Name="ServicesCode" ColumnName="ServicesCode" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="Tarasova_PPModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

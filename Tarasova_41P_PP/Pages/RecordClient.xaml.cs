@@ -31,19 +31,13 @@ namespace Tarasova_41P_PP.Pages
         List<string> zanyto = new List<string>();
         List<string[]> FreeDateTime = new List<string[]>();
 
+        List<DateTime> RaspisanieDate = new List<DateTime>();
+
         public RecordClient(services s)
         {
             InitializeComponent();
             client = new Client();
             client.ServicesCode = s.ServicesCode;
-
-            raspisanie.Add("07-04-2022 11:30");
-            raspisanie.Add("07-04-2022 12:30");
-            raspisanie.Add("08-04-2022 11:30");
-            raspisanie.Add("08-04-2022 12:30");
-            zanyto.Add("07-04-2022 12:30");
-            zanyto.Add("08-04-2022 11:30");
-            zanyto.Add("08-04-2022 12:30");
             DatePicker.DisplayDateStart = DateTime.Now;
             DatePicker.DisplayDateEnd = DateTime.Now.AddDays(30);
             for (int i = 0; i < 31; i++)

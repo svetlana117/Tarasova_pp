@@ -9,7 +9,6 @@
         <EntityTypeShape EntityType="Tarasova_PPModel.doctors" Width="1.5" PointX="3" PointY="3" />
         <EntityTypeShape EntityType="Tarasova_PPModel.medIndustry" Width="1.5" PointX="0.75" PointY="3" />
         <EntityTypeShape EntityType="Tarasova_PPModel.services" Width="1.5" PointX="5.25" PointY="2.5" />
-        <EntityTypeShape EntityType="Tarasova_PPModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="5.75" />
         <EntityTypeShape EntityType="Tarasova_PPModel.TimeTable" Width="1.5" PointX="7.5" PointY="1.125" />
         <AssociationConnector Association="Tarasova_PPModel.FK_Client_services" />
         <AssociationConnector Association="Tarasova_PPModel.FK_doctors_medIndustry" />
